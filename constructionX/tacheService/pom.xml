@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ConsutuctionMicroServices.example</groupId>
-	<artifactId>tache</artifactId>
+	<artifactId>tacheService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tache</name>
 	<description>Demo project for Spring Boot</description>

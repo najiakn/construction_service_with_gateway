@@ -4,6 +4,7 @@ package ConstructionX.example.projetService.service;
 import ConstructionX.example.projetService.model.Projet;
 import ConstructionX.example.projetService.repository.ProjetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ServiceProjet {
 
-    private final ProjetRepository projetRepository;
+    @Autowired
+    private  ProjetRepository projetRepository;
+
     public  void saveProjet(Projet projet){
         projetRepository.save(projet);
 
