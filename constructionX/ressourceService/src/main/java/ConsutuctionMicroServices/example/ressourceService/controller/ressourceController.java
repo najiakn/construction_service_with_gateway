@@ -25,5 +25,15 @@ public class ressourceController {
     }
     @GetMapping
     public ResponseEntity<List<Ressource>> findAllRessource(){return ResponseEntity.ok(serviceRessource.findAllRessource());}
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Ressource> getRessourceById(@PathVariable("id") int id) {
+        Ressource ressource = serviceRessource.getRessourceById(id);
+        if (ressource != null) {
+            return ResponseEntity.ok(ressource);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 

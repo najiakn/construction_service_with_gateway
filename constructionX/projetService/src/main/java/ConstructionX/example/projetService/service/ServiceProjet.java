@@ -3,6 +3,7 @@ package ConstructionX.example.projetService.service;
 
 import ConstructionX.example.projetService.model.Projet;
 import ConstructionX.example.projetService.repository.ProjetRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,4 +31,26 @@ public class ServiceProjet {
         Optional<Projet> projet = projetRepository.findById(id);
         return projet.get();
     }
+
+
+    public Projet update( int id , Projet projet) {
+        Optional<Projet> projetOptional = projetRepository.findById(id);
+        if (projetOptional.isPresent()) {
+
+            Projet projet1 = projetOptional.get();
+            projet1.setNom_projet(projet1.getNom_projet());
+            projet1.setDescription_projet(projet1.getDescription_projet());
+            projet1.setBudget(projet1.getBudget());
+            projet1.setDate_fin(projet1.getDate_fin());
+            projet1.setDate_debut(projet1.getDate_debut());
+            Projet updateProjet = projetRepository.save(projet);
+
+            return updateProjet;
+        }
+        else  {
+
+            throw new EntityNotFoundException("Projet not found with id: " + id);
+        }
+    }
+
 }

@@ -40,6 +40,16 @@ public class  ProjetController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Projet>update(@PathVariable("id") int id , @RequestBody Projet projet){
+        Projet updteProjet=serviceProjet.update(id,projet);
+        if(updteProjet!=null){
+            return ResponseEntity.ok(updteProjet);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 
 
