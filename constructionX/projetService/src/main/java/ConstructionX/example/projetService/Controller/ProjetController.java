@@ -50,6 +50,11 @@ public class  ProjetController {
             return ResponseEntity.notFound().build();
         }
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProject(@PathVariable int id) {
+        serviceProjet.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }
 
 

@@ -6,7 +6,10 @@ import ConstructionX.example.projetService.repository.ProjetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +36,7 @@ public class ServiceProjet {
     }
 
 
+
     public Projet update( int id , Projet projet) {
         Optional<Projet> projetOptional = projetRepository.findById(id);
         if (projetOptional.isPresent()) {
@@ -53,4 +57,8 @@ public class ServiceProjet {
         }
     }
 
+
+    public  void delete (int id ){
+        projetRepository.deleteById(id);
+    }
 }
