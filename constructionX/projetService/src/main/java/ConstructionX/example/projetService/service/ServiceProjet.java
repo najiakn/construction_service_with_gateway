@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,5 +23,11 @@ public class ServiceProjet {
     }
     public List<Projet>findAllProjets(){
         return projetRepository.findAll();
+    }
+
+
+    public  Projet getprojetById(int id){
+        Optional<Projet> projet = projetRepository.findById(id);
+        return projet.get();
     }
 }

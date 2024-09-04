@@ -30,6 +30,16 @@ public class  ProjetController {
     public ResponseEntity<List<Projet>>findAllProjets(){
         return ResponseEntity.ok(serviceProjet.findAllProjets());
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Projet> getProjetById(@PathVariable("id") int id) {
+        Projet projet = serviceProjet.getprojetById(id);
+        if (projet != null) {
+            return ResponseEntity.ok(projet);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 
 
