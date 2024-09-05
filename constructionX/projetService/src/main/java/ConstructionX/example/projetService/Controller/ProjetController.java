@@ -1,5 +1,6 @@
 package ConstructionX.example.projetService.Controller;
 
+import ConstructionX.example.projetService.exception.ProjetNotFoundException;
 import ConstructionX.example.projetService.model.Projet;
 import ConstructionX.example.projetService.service.ServiceProjet;
 import lombok.RequiredArgsConstructor;
@@ -24,22 +25,34 @@ public class  ProjetController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void save(@RequestBody Projet projet) {
-          serviceProjet.saveProjet(projet);
-    }
-    @GetMapping
-    public ResponseEntity<List<Projet>>findAllProjets(){
-        return ResponseEntity.ok(serviceProjet.findAllProjets());
+        serviceProjet.saveProjet(projet);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Projet>> findAllProjets() {
+        return ResponseEntity.ok(serviceProjet.findAllProjets());
+    }
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Projet> getProjetById(@PathVariable("id") int id) {
+//        Projet projet = serviceProjet.getprojetById(id);
+//        if (projet != null) {
+//            return ResponseEntity.ok(projet);
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<Projet> getProjetById(@PathVariable("id") int id) {
-        Projet projet = serviceProjet.getprojetById(id);
-        if (projet != null) {
+    public ResponseEntity<?> getProjetById(@PathVariable("id") int id) {
+        try {
+            Projet projet = serviceProjet.getProjetById(id);
             return ResponseEntity.ok(projet);
-        } else {
-            return ResponseEntity.notFound().build();
+        } catch (ProjetNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
         }
     }
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Projet>update(@PathVariable("id") int id , @RequestBody Projet projet){
@@ -52,7 +65,7 @@ public class  ProjetController {
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProject(@PathVariable int id) {
-        serviceProjet.delete(id);
+        serviceProjet.supprimerProjet(id);
         return ResponseEntity.noContent().build();
     }
 }

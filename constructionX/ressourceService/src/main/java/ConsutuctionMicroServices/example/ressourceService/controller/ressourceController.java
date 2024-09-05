@@ -23,6 +23,7 @@ public class ressourceController {
     public void save(@RequestBody Ressource ressource) {
         serviceRessource.saveRessource(ressource);
     }
+
     @GetMapping
     public ResponseEntity<List<Ressource>> findAllRessource(){return ResponseEntity.ok(serviceRessource.findAllRessource());}
 
@@ -35,5 +36,22 @@ public class ressourceController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PutMapping("/{id}")
+    public Ressource editRessource(@PathVariable int id, @RequestBody Ressource ressources){
+        return serviceRessource.editRessources(id, ressources);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id){
+        serviceRessource.deleteRessources(id);
+    }
+
+    @DeleteMapping("tache/{id}")
+    public void deleteRessourcesOfTache(@PathVariable int id){
+        serviceRessource.deleteRessourcesWithTache(id);
+    }
 }
+
+
 

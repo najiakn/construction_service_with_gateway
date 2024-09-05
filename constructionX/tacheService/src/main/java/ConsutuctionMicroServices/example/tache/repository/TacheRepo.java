@@ -8,5 +8,5 @@ import java.util.List;
 public interface TacheRepo extends JpaRepository<Tache, Integer> {
 
 
-    List<Tache> findTachesByIdProjet(int id_projet);
+    List<Tache> findTachesByIdProjet(int idProjet);
 }

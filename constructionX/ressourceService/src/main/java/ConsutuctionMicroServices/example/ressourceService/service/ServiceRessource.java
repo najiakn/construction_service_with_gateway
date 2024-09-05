@@ -31,6 +31,37 @@ public class ServiceRessource {
         Optional<Ressource> ressource = ressourceRepo.findById(id);
         return ressource.get();
     }
+
+    public Ressource editRessources(int id, Ressource ressources) {
+        Optional<Ressource> edited = ressourceRepo.findById(id);
+        Ressource saved = edited.get();
+        saved.setIdr(id);
+        saved.setNom(ressources.getNom());
+        saved.setQuantite(ressources.getQuantite());
+        saved.setType(ressources.getType());
+
+        return ressourceRepo.save(saved);
+    }
+
+    public List<Ressource> getAllRessources() {
+        return ressourceRepo.findAll();
+    }
+
+    public void deleteRessources(int id) {
+        ressourceRepo.deleteById(id);
+    }
+
+
+    public List<Ressource> getRessourcesByTache(int id) {
+
+        return ressourceRepo.findRessourcesByIdTache(id);
+    }
+
+    public void deleteRessourcesWithTache(int id) {
+        List<Ressource> ressources = ressourceRepo.findRessourcesByIdTache(id);
+        ressourceRepo.deleteAll(ressources);
+    }
+
 }
 
 

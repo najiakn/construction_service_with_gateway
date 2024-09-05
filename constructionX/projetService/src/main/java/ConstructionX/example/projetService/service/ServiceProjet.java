@@ -1,7 +1,12 @@
 package ConstructionX.example.projetService.service;
 
 
+import ConstructionX.example.projetService.client.TachesClient;
+
+import ConstructionX.example.projetService.exception.ProjetNotFoundException;
+import ConstructionX.example.projetService.model.FullProjetResponse;
 import ConstructionX.example.projetService.model.Projet;
+import ConstructionX.example.projetService.model.Taches;
 import ConstructionX.example.projetService.repository.ProjetRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,19 +26,28 @@ public class ServiceProjet {
     @Autowired
     private  ProjetRepository projetRepository;
 
+    @Autowired
+    TachesClient tachesClient;
+
     public  void saveProjet(Projet projet){
         projetRepository.save(projet);
 
     }
     public List<Projet>findAllProjets(){
+        try{
+
         return projetRepository.findAll();
+    } catch (Exception e) {
+        throw new IllegalStateException("Erreur lors de la suppression des tâches pour l'ID du projet : " );
     }
+}
 
 
-    public  Projet getprojetById(int id){
-        Optional<Projet> projet = projetRepository.findById(id);
-        return projet.get();
+    public Projet getProjetById(int id) {
+        return projetRepository.findById(id)
+                .orElseThrow(() -> new ProjetNotFoundException("Projet with ID " + id + " not found."));
     }
+
 
 
 
@@ -57,8 +71,27 @@ public class ServiceProjet {
         }
     }
 
+    public FullProjetResponse projetWithTaches(int id) {
+        Projet projet = projetRepository.findById(id)
+                .orElse(
+                        Projet.builder()
+                                .nom_projet("NOT_FOUND")
+                                .build()
+                );
+        List<Taches> taches = tachesClient.findAllTachesByProjet(id);
+        return FullProjetResponse.builder()
+                .nom(projet.getNom_projet())
+                .dateDebut(projet.getDate_debut())
+                .dateFin(projet.getDate_fin())
+                .description(projet.getDescription_projet())
+                .budget(projet.getBudget())
+                .taches(taches)
+                .build();
+    }
 
-    public  void delete (int id ){
+
+    public void supprimerProjet(int id) {
+        tachesClient.deleteTacheWithProjet(id);
         projetRepository.deleteById(id);
     }
 }

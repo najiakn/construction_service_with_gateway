@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface RessourceRepo extends JpaRepository<Ressource,Integer> {
     List<Ressource> findRessourcesByIdTache(int idTache);
+
+
+
 }
